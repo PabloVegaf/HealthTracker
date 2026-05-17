@@ -1,0 +1,36 @@
+# Environment secrets
+.env
+.env.local
+*.env
+!.env.example
+
+# Dependencies
+node_modules/
+
+# Build output
+target/
+dist/
+build/
+out/
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Docker volumes
+postgres_data/
+
+# Temporary files
+*.tmp
+*.swp
+*.swo
+*~
