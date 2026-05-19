@@ -8,18 +8,21 @@ Este documento es la fuente rápida de contexto del proyecto. Antes de implement
 - `sql/create_tables.sql`
 - `seed.sql`
 - `docker-compose.yml`
+- `.env` (credenciales reales, excluido de Git)
 
 ## Estado Actual
 
-HealthTracker está en fase inicial. Actualmente el repositorio contiene:
+HealthTracker está en fase inicial de desarrollo. Actualmente el repositorio contiene:
 
 - Documentación funcional inicial exportada desde Notion.
-- `docker-compose.yml` con PostgreSQL 18.
-- Script SQL inicial de creación de tablas.
-- Seed SQL con datos sintéticos.
-- Sin backend/frontend scaffolded todavía en esta carpeta.
+- `docker-compose.yml` con PostgreSQL 18 + `.env` con credenciales externalizadas.
+- Script SQL de creación de tablas en `sql/create_tables.sql`.
+- Seed SQL con datos sintéticos + importación de datos reales (336 registros diarios, 9 categorías de ejercicio, 5 mediciones corporales).
+- Backend Spring Boot 4.0.6 + Java 26 scaffolded en `backend/`.
+- `.gitignore` y `.env.example` para seguridad de credenciales.
+- Usuario `Pablo Vega` con background deportivo almacenado en BD.
 
-No asumas que hay arquitectura de aplicación ya implementada. Si vas a crear estructura nueva, documenta las decisiones y mantén el alcance pequeño y verificable.
+No asumas que hay arquitectura de frontend implementada. Si vas a crear estructura nueva, documenta las decisiones y mantén el alcance pequeño y verificable.
 
 ## Objetivo Del Producto
 
@@ -56,6 +59,13 @@ Según la documentación inicial:
 
 Antes de fijar versiones en código, verifica disponibilidad real de esas versiones. Si alguna versión no existe o no es viable, propón alternativa conservadora y documenta el motivo.
 
+Versiones confirmadas en el backend scaffold (Mayo 2026):
+
+- Java 26.0.1, Spring Boot 4.0.6 (Spring Framework 7.0.7, Hibernate 7.x).
+- JWT: jjwt 0.12.6.
+- Gestor de build: Maven 3.9.15 (wrapper incluido).
+- Base de datos: PostgreSQL 18.2 en Docker.
+
 ## Base De Datos
 
 Motor confirmado: PostgreSQL.
@@ -77,7 +87,7 @@ Al iniciar una tarea relacionada con datos:
 
 Tablas actuales definidas en `sql/create_tables.sql`:
 
-- `users`: usuarios con `email`, `password_hash`, `name`, timestamps.
+- `users`: usuarios con `email`, `password_hash`, `name`, `athlete_background` (contexto deportivo/nutricional para el asistente IA), timestamps.
 - `exercise_categories`: categorías de ejercicio por usuario.
 - `daily_records`: registro diario de peso, grasa corporal, kcal, actividad, duración y notas.
 - `body_measurements`: medidas corporales por fecha.
@@ -393,12 +403,6 @@ Prioridad alta:
 - Confirmar/scaffoldear backend y frontend.
 - Externalizar secretos de `docker-compose.yml`.
 - Definir migraciones.
-- Implementar auth email/password.
-- Implementar aislamiento multiusuario.
-- CRUD de registros diarios.
-- Dashboard inicial.
-- Configuración LLM por usuario.
-- Chat IA con streaming y tools seguras.
 
 Prioridad media:
 
@@ -422,9 +426,9 @@ Prioridad futura:
 
 Antes de grandes decisiones, aclarar:
 
-- ¿Se confirma Java 26/Spring Boot 4 aunque sean versiones muy recientes?
-- ¿Se usará monorepo con `backend/` y `frontend/`?
-- ¿Qué gestor de build exacto para backend: Maven o Gradle?
+- ~~¿Se confirma Java 26/Spring Boot 4 aunque sean versiones muy recientes?~~ -> **Sí, confirmado: Java 26.0.1 + Spring Boot 4.0.6.**
+- ~~¿Se usará monorepo con `backend/` y `frontend/`?~~ -> **Sí, monorepo con `backend/`. Frontend en `frontend/` cuando se cree.**
+- ~~¿Qué gestor de build exacto para backend: Maven o Gradle?~~ -> **Maven (wrapper incluido).**
 - ¿Qué herramienta de tests E2E se prefiere?
 - ¿Cómo se almacenarán/cifrarán API keys de proveedores IA?
 - ¿Cuál será el formato exacto de TOON para exportación?
@@ -440,6 +444,8 @@ Antes de modificar:
 3. Comprueba el estado real de archivos.
 4. Si trabajas con datos, intenta introspección con Tabularis.
 5. Distingue entre requisito confirmado, inferencia y propuesta.
+6. El `.env` raíz se carga automáticamente al arrancar el backend vía `DotenvLoader`.
+7. Backend en `backend/`, scripts SQL en `sql/`, seed en raíz.
 
 Durante la implementación:
 

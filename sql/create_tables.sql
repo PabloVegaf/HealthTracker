@@ -9,12 +9,13 @@ BEGIN;
 -- 1. users
 -- -----------------------------------------------------------
 CREATE TABLE users (
-    id            BIGSERIAL       PRIMARY KEY,
-    email         VARCHAR(255)    NOT NULL,
-    password_hash VARCHAR(255)    NOT NULL,
-    name          VARCHAR(100),
-    created_at    TIMESTAMPTZ     NOT NULL DEFAULT NOW(),
-    updated_at    TIMESTAMPTZ     NOT NULL DEFAULT NOW()
+    id                 BIGSERIAL       PRIMARY KEY,
+    email              VARCHAR(255)    NOT NULL,
+    password_hash      VARCHAR(255)    NOT NULL,
+    name               VARCHAR(100),
+    athlete_background TEXT,
+    created_at         TIMESTAMPTZ     NOT NULL DEFAULT NOW(),
+    updated_at         TIMESTAMPTZ     NOT NULL DEFAULT NOW()
 );
 
 CREATE UNIQUE INDEX uq_users_email ON users (email);
