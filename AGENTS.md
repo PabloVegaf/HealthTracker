@@ -5,7 +5,6 @@ Guía operativa para agentes de IA que trabajen en HealthTracker.
 Este documento es la fuente rápida de contexto del proyecto. Antes de implementar cambios, revisa también:
 
 - `Documentation/Inicial_Notion.pdf`
-- `sql/create_tables.sql`
 - `seed.sql`
 - `docker-compose.yml`
 - `.env` (credenciales reales, excluido de Git)
@@ -16,7 +15,7 @@ HealthTracker está en fase inicial de desarrollo. Actualmente el repositorio co
 
 - Documentación funcional inicial exportada desde Notion.
 - `docker-compose.yml` con PostgreSQL 18 + `.env` con credenciales externalizadas.
-- Script SQL de creación de tablas en `sql/create_tables.sql`.
+- Script de creación de tablas gestionado vía migraciones manuales en BD (no hay `sql/create_tables.sql` versionado).
 - Seed SQL con datos sintéticos + importación de datos reales (336 registros diarios, 9 categorías de ejercicio, 5 mediciones corporales).
 - Backend Spring Boot 4.0.6 + Java 26 scaffolded en `backend/`.
 - `.gitignore` y `.env.example` para seguridad de credenciales.
@@ -80,7 +79,7 @@ Cliente disponible para agentes: MCP de Tabularis. La conexión detectada en est
 Al iniciar una tarea relacionada con datos:
 
 1. Intenta introspeccionar con Tabularis.
-2. Si Tabularis falla, usa `sql/create_tables.sql` como fuente versionada provisional.
+2. Si Tabularis falla, revisa las entidades JPA en `backend/src/main/java/com/healthtracker/backend/model/`.
 3. No hagas migraciones destructivas sin confirmación explícita.
 4. No mezcles datos entre usuarios; toda consulta operativa debe estar filtrada por `user_id`.
 5. Documenta cualquier diferencia entre la base real y los scripts del repositorio.
@@ -89,7 +88,8 @@ Tablas actuales definidas en `sql/create_tables.sql`:
 
 - `users`: usuarios con `email`, `password_hash`, `name`, `athlete_background` (contexto deportivo/nutricional para el asistente IA), timestamps.
 - `exercise_categories`: categorías de ejercicio por usuario.
-- `daily_records`: registro diario de peso, grasa corporal, kcal, actividad, duración y notas.
+- `daily_records`: registro diario de peso, grasa corporal, kcal, notas y timestamps. El `exercise_duration_min` es la suma total calculada a partir de las sesiones del día.
+- `exercise_sessions`: sesiones de ejercicio vinculadas a un `daily_record`. Cada una tiene `exercise_category`, `duration_min`, `notes`. Varias por día.
 - `body_measurements`: medidas corporales por fecha.
 - `user_configs`: configuración de proveedor/base URL/modelo/API key IA por usuario. Cualquier proveedor con API OpenAI-compatible.
 - `chat_messages`: historial persistente del chat.
@@ -237,8 +237,8 @@ Formulario con:
 - Porcentaje graso.
 - Kcal gastadas.
 - Kcal ingeridas.
-- Tipo de deporte/descanso configurable por usuario.
-- Tiempo total de ejercicio en minutos.
+- Una o varias sesiones de ejercicio (cada una con tipo de deporte, duración en minutos y notas).
+- Tiempo total de ejercicio en minutos (suma de sesiones, calculado automáticamente).
 - Notas.
 - Selector rápido: hoy, ayer, calendario.
 - Validación en tiempo real.
@@ -312,6 +312,32 @@ Frontend:
 - Tremor para gráficas si encaja con el diseño y versiones.
 
 No sacrifiques claridad por mostrar más métricas. Si una métrica necesita explicación, añade copy corto o tooltip.
+
+## Comandos De Desarrollo
+
+Desde `backend/`:
+
+```bash
+# Compilar
+./mvnw clean compile
+
+# Ejecutar tests
+./mvnw test
+
+# Arrancar la aplicación (requiere PostgreSQL corriendo vía docker compose)
+./mvnw spring-boot:run
+
+# Crear una nueva clase Java (desde cualquier subdirectorio de src/main/java/)
+bash scripts/new-java.sh service UserService
+bash scripts/new-java.sh entity DailyRecord
+bash scripts/new-java.sh controller DashboardController
+bash scripts/new-java.sh repository UserRepository
+bash scripts/new-java.sh dto LoginRequest
+bash scripts/new-java.sh config SecurityConfig
+bash scripts/new-java.sh class MiClase    # clase genérica (default)
+```
+
+El script `scripts/new-java.sh` detecta automáticamente el package según el directorio donde te encuentres.
 
 ## Testing Y Calidad
 
