@@ -6,6 +6,9 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @SpringBootApplication
 @EnableJpaAuditing
+/**
+ * Punto de entrada de la aplicación Spring Boot.
+ */
 public class BackendApplication {
 
     public static void main(String[] args) {

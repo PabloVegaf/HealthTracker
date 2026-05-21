@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
+/**
+ * Repositorio de categorías de ejercicio asociadas a cada usuario.
+ */
 public interface ExerciseCategoryRepository extends JpaRepository<ExerciseCategory, Long> {
 
     List<ExerciseCategory> findByUserIdOrderByNameAsc(Long userId);

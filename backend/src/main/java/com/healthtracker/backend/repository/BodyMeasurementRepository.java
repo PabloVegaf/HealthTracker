@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
+/**
+ * Repositorio de mediciones corporales por usuario y fecha.
+ */
 public interface BodyMeasurementRepository extends JpaRepository<BodyMeasurement, Long> {
 
     List<BodyMeasurement> findByUserIdOrderByMeasurementDateDesc(Long userId);

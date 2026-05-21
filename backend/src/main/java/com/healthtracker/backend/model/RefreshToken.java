@@ -13,6 +13,9 @@ import java.time.Instant;
 
 @Entity
 @Table(name = "refresh_tokens")
+/**
+ * Entidad de refresh token persistido para control de sesión.
+ */
 public class RefreshToken {
 
     @Id

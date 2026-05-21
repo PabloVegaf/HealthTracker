@@ -20,6 +20,9 @@ import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "daily_records")
+/**
+ * Entidad principal del seguimiento diario de salud y entrenamiento.
+ */
 public class DailyRecord {
 
     @Id

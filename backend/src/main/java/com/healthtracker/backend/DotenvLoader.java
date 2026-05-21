@@ -6,6 +6,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Properties;
 
+/**
+ * Utilidad para cargar variables de entorno desde un archivo .env local.
+ */
 public final class DotenvLoader {
 
     private DotenvLoader() {}

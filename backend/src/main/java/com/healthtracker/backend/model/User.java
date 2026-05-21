@@ -12,6 +12,9 @@ import java.time.Instant;
 
 @Entity
 @Table(name = "users")
+/**
+ * Entidad de usuario de la aplicación.
+ */
 public class User {
 
     @Id

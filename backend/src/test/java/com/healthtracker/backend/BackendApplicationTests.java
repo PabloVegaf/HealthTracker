@@ -6,6 +6,9 @@ import org.springframework.test.context.ActiveProfiles;
 
 @SpringBootTest
 @ActiveProfiles("test")
+/**
+ * Smoke test mínimo para verificar que el contexto Spring levanta correctamente.
+ */
 class BackendApplicationTests {
 
 	@Test

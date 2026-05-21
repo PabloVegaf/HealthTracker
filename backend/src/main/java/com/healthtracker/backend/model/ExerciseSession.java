@@ -14,6 +14,9 @@ import java.time.Instant;
 
 @Entity
 @Table(name = "exercise_sessions")
+/**
+ * Entidad de sesión individual de ejercicio vinculada a un registro diario.
+ */
 public class ExerciseSession {
 
     @Id

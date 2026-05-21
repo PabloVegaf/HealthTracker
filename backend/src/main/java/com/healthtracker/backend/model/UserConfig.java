@@ -13,6 +13,9 @@ import java.time.Instant;
 
 @Entity
 @Table(name = "user_configs")
+/**
+ * Entidad de configuración de proveedor/modelo IA por usuario.
+ */
 public class UserConfig {
 
     @Id

@@ -15,6 +15,9 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "body_measurements")
+/**
+ * Entidad de mediciones corporales históricas por fecha.
+ */
 public class BodyMeasurement {
 
     @Id

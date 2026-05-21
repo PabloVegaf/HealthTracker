@@ -8,6 +8,9 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
+/**
+ * Repositorio de registros diarios de salud y entrenamiento.
+ */
 public interface DailyRecordRepository extends JpaRepository<DailyRecord, Long> {
 
     List<DailyRecord> findByUserIdOrderByRecordDateDesc(Long userId);

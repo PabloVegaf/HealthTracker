@@ -6,6 +6,9 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
+/**
+ * Repositorio del historial de mensajes del chat IA por usuario.
+ */
 public interface ChatMessageRepository extends JpaRepository<ChatMessage, Long> {
 
     List<ChatMessage> findByUserIdOrderByCreatedAtAsc(Long userId);

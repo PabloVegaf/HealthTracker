@@ -13,6 +13,9 @@ import java.time.Instant;
 
 @Entity
 @Table(name = "exercise_categories")
+/**
+ * Entidad de categoría de ejercicio (ej: correr, fuerza, ciclismo).
+ */
 public class ExerciseCategory {
 
     @Id
