@@ -8,6 +8,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import java.time.Instant;
 
@@ -51,6 +52,11 @@ public class RefreshToken {
     public void setExpiresAt(Instant expiresAt) { this.expiresAt = expiresAt; }
 
     public Instant getCreatedAt() { return createdAt; }
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = Instant.now();
+    }
 
     @Override
     public String toString() {

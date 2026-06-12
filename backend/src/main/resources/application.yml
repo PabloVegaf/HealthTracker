@@ -30,3 +30,10 @@ logging:
     com.healthtracker: DEBUG
     org.hibernate.SQL: DEBUG
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+
+security:
+  jwt:
+    # Cambiar JWT_SECRET en entornos reales. El valor por defecto solo sirve para desarrollo local.
+    secret: ${JWT_SECRET:dev-only-healthtracker-jwt-secret-change-me-32chars}
+    access-token-expiration-seconds: ${JWT_ACCESS_TOKEN_EXPIRATION_SECONDS:1800}
+    refresh-token-expiration-days: ${JWT_REFRESH_TOKEN_EXPIRATION_DAYS:7}
